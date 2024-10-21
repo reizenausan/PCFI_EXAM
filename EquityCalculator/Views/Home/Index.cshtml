@@ -1,0 +1,79 @@
+﻿<!-- Views/EquityCalculator/Index.cshtml -->
+@{
+    ViewData["Title"] = "Equity Calculator";
+}
+
+<h2>Equity Calculator</h2>
+
+<form id="equityForm">
+    <label>Selling Price:</label>
+    <input type="number" id="sellingPrice" required style="margin: 10px 0; border: 2px solid darkblue; padding: 8px; border-radius: 5px;" /><br />
+
+    <label>Reservation Date:</label>
+    <input type="date" id="reservationDate" required style="margin: 10px 0; border: 2px solid darkblue; padding: 8px; border-radius: 5px;" /><br />
+
+    <label>Equity Term:</label>
+    <input type="number" id="equityTerm" required style="margin: 10px 0; border: 2px solid darkblue; padding: 8px; border-radius: 5px;" /><br />
+
+    <button type="button" onclick="calculateEquity()" style="background-color: #6F9CDE; border: 2px solid darkblue; color: white; padding: 10px 60px; border-radius: 5px;">Go</button>
+</form>
+
+
+<div id="results"></div>
+
+<script>
+    async function calculateEquity() {
+        // Get the input values
+        const sellingPrice = parseFloat(document.getElementById("sellingPrice").value);
+        const reservationDate = document.getElementById("reservationDate").value;
+        const equityTerm = parseInt(document.getElementById("equityTerm").value);
+
+        // Make sure that form fields are filled in
+        if (!sellingPrice || !reservationDate || !equityTerm) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        // Clear the previous results
+        document.getElementById("results").innerHTML = "";
+
+        // Make the API call
+        const response = await fetch('/EquityCalculator/Calculate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                SellingPrice: sellingPrice,
+                ReservationDate: reservationDate,
+                EquityTerm: equityTerm
+            })
+        });
+
+        const result = await response.json();
+
+        // Display the new results
+        displayResults(result);
+    }
+
+    function displayResults(payments) {
+        let output = '';
+        payments.forEach(payment => {
+            output += `
+                    <details>
+                        <summary><strong>${payment.month}</strong></summary>
+                        <div>
+                            Balance: ${payment.balance}<br />
+                            Due Date: ${new Date(payment.dueDate).toLocaleDateString()}<br />
+                            Payment Info: <br />
+                            Amount: ${payment.amount}, Interest: ${payment.interest}, Insurance: ${payment.insurance}, Total: ${payment.total}<br />
+                        </div>
+                    </details>
+                    <hr />
+                `;
+        });
+        document.getElementById("results").innerHTML = output;
+    }
+</script>
+
+
