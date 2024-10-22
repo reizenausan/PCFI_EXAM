@@ -1,4 +1,4 @@
-﻿<!-- Views/EquityCalculator/Index.cshtml -->
+
 @{
     ViewData["Title"] = "Equity Calculator";
 }
@@ -23,7 +23,7 @@
 
 <script>
     async function calculateEquity() {
-        // Get the input values
+        // input values
         const sellingPrice = parseFloat(document.getElementById("sellingPrice").value);
         const reservationDate = document.getElementById("reservationDate").value;
         const equityTerm = parseInt(document.getElementById("equityTerm").value);
@@ -34,7 +34,7 @@
             return;
         }
 
-        // Clear the previous results
+        // Clear previous results
         document.getElementById("results").innerHTML = "";
 
         // Make the API call
