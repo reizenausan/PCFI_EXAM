@@ -1,4 +1,3 @@
-﻿// Controllers/EquityCalculatorController.cs
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
