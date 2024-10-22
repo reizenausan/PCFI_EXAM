@@ -1,4 +1,3 @@
-﻿// Models/EquityCalculation.cs
 public class EquityCalculation
 {
     public decimal SellingPrice { get; set; }
@@ -17,8 +16,7 @@ public class EquityCalculation
             decimal interest = balance * 0.05m; // 5% interest
             decimal insurance = monthlyAmount * 0.01m; // 1% insurance
             decimal total = monthlyAmount + interest + insurance;
-
-            // Update the balance for the current payment
+            
             balance -= monthlyAmount;
 
             // Ensure the balance doesn't go below zero
@@ -35,7 +33,7 @@ public class EquityCalculation
                 Insurance = Math.Round(insurance, 2),
                 Total = Math.Round(total, 2),
                 DueDate = dueDate,
-                Balance = Math.Round(balance, 2) // Round the balance to two decimal places
+                Balance = Math.Round(balance, 2) 
             });
         }
         return payments;
